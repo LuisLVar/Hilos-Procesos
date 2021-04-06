@@ -4,5 +4,5 @@
 | Nombre  | Carnet |
 | :----: | :----: |
 | Luis Gerardo Chay Grijalva | 201700345 |
-| Luis Angel Vargas Leon | 201700345 |
+| Luis Angel Vargas León | 201701023 |
 | Francisco Javier Bran | 201700345 |
