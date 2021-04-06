@@ -30,50 +30,55 @@ public class ConcurrentList {
     
     public void insert() {
         try {
-            this.padlockReadWrite.readLock().lock();
             this.padlockReadWrite.writeLock().lock();
-            
-            System.out.println("boxes: " + String.valueOf(this.list.size()));
-            System.out.println("give: " + String.valueOf(this.giveQueue));
-            System.out.println("take: " + String.valueOf(this.takeQueue));
-            
             if(this.list.size() == 20) {
                 this.giveQueue++;
             } else {
-                this.list.add(1);
-                if(this.giveQueue > 0) {
-                    this.giveQueue--;
+                if(this.takeQueue > 0) {
+                    this.takeQueue--;
+                } else {
+                    this.list.add(1);
+                    if(this.giveQueue > 0) {
+                        this.giveQueue--;
+                    }
                 }
             }
         } catch(Exception ex) {
             System.out.println(ex);
         } finally {
-            this.padlockReadWrite.readLock().unlock();
+            System.out.println("DEJAR CAJA");
+            System.out.println("cajas: " + String.valueOf(this.list.size()));
+            System.out.println("cola dejar: " + String.valueOf(this.giveQueue));
+            System.out.println("cola recoger: " + String.valueOf(this.takeQueue));
+            System.out.println("----------------------------------------");
             this.padlockReadWrite.writeLock().unlock();
         }
     }
     
     public void remove() {
         try {
-            this.padlockReadWrite.readLock().lock();
             this.padlockReadWrite.writeLock().lock();
-            
-            System.out.println("boxes: " + String.valueOf(this.list.size()));
-            System.out.println("give: " + String.valueOf(this.giveQueue));
-            System.out.println("take: " + String.valueOf(this.takeQueue));
-            
             if(this.list.isEmpty()) {
                 this.takeQueue++;
             } else {
-                this.list.remove();
-                if(this.takeQueue > 0) {
-                    this.takeQueue--;
+                if(this.giveQueue > 0) {
+                    this.giveQueue--;
+                } else {
+                    this.list.remove();
+                    if(this.takeQueue > 0) {
+                        this.takeQueue--;
+                    }
                 }
+                
             }
         } catch(Exception ex) {
             System.out.println(ex);
         } finally {
-            this.padlockReadWrite.readLock().unlock();
+            System.out.println("RECOGER CAJA");
+            System.out.println("cajas: " + String.valueOf(this.list.size()));
+            System.out.println("cola dejar: " + String.valueOf(this.giveQueue));
+            System.out.println("cola recoger: " + String.valueOf(this.takeQueue));
+            System.out.println("----------------------------------------");
             this.padlockReadWrite.writeLock().unlock();
         }
     }
@@ -81,13 +86,20 @@ public class ConcurrentList {
     public int getSize() {
         int size = -1;
         try {
-            this.padlockReadWrite.readLock().lock();
+            //this.padlockReadWrite.readLock().lock();
             size = this.list.size();
         } catch(Exception ex) {
             System.out.println(ex);
         } finally {
-             this.padlockReadWrite.readLock().unlock();
+             //this.padlockReadWrite.readLock().unlock();
         }
         return size;
+    }
+    
+    public void printList() {
+        this.list.forEach((element) -> {
+            System.out.println(element + ", ");
+        });
+        System.out.println("\n");
     }
 }

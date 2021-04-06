@@ -24,21 +24,21 @@ public class Practica2_SO2_G4 {
         
         ExecutorService threadPool = Executors.newCachedThreadPool();
         ConcurrentList list = new ConcurrentList();
-        long startInsertion = System.nanoTime();
+        long start_insertion = System.nanoTime();
         
-        for(int i = 0; i < 1; i++) {
+        for(int i = 0; i < 20; i++) {
             int random = (int)(Math.random() * 2 + 1);
-            System.out.println(random);
             threadPool.execute(new OperationTask(random, list));
         }
-        
-        threadPool.shutdown();
-        
         try {
+            threadPool.shutdown();
             threadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            
             long finish_insertion = System.nanoTime();
-            long delta_insertion_time = finish_insertion - startInsertion;
-            System.out.println("Tiempo Insertar : " + delta_insertion_time);
+            long delta_insertion_time = finish_insertion - start_insertion;
+            System.out.println("Tiempo Insertar: " + delta_insertion_time);
+            System.out.println("Numero de cajas: " + list.getSize());
+            list.printList();
         } catch(Exception ex) {
             System.out.println("error " + ex.getMessage());
         }
