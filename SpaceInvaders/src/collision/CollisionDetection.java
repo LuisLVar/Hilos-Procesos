@@ -94,6 +94,79 @@ public class CollisionDetection {
             eventResolution.Push(new EndGame(false));
     }
 
+    public void Detect2(){
+            
+        
+        for (InvaderProjectile invaderProjectile : game.allInvaderProjectiles){
+            if(IsShapeOutsideWindow(invaderProjectile))
+                eventResolution.Push(new RemoveInvaderProjectileOutOfWindow(invaderProjectile));
+            else if(areTwoShapesInCollision(game.heroShip, invaderProjectile))
+                if(game.heroShip.vida1 == null){
+                    game.heroShip.vida1 = invaderProjectile;
+                }else{
+                    if(!game.heroShip.vida1.equals(invaderProjectile)){
+                        
+                        if(game.heroShip.vida2 == null){
+                            game.heroShip.vida2 = invaderProjectile;
+                        }else{
+                            if(!game.heroShip.vida2.equals(invaderProjectile)){
+
+                                if(game.heroShip.vida3 == null){
+                                    game.heroShip.vida3 = invaderProjectile;
+                                }else{
+                                    eventResolution.Push(new EndGame(false));
+                                }
+                                
+                            }
+                        }
+                        
+                    }
+                }
+                    
+        }
+       
+
+        for (HeroProjectile heroProjectile : game.allHeroProjectiles){
+            if(IsShapeOutsideWindow(heroProjectile))
+                eventResolution.Push(new RemoveHeroProjectileOutOfWindow(heroProjectile));
+            else for (InvaderShip invaderShip: game.allInvaderShips)
+                if(areTwoShapesInCollision(invaderShip, heroProjectile)){
+                    if(invaderShip.vida1 == null){
+                        invaderShip.vida1 = heroProjectile;
+                    }else{
+                        if(!invaderShip.vida1.equals(heroProjectile)){
+                           
+                            if(invaderShip.vida2 == null){
+                                invaderShip.vida2 = heroProjectile;
+                            }else{
+                                if(!invaderShip.vida2.equals(heroProjectile)){
+                                    eventResolution.Push(new ExplodeInvaderShip(invaderShip, eventResolution));
+                                    eventResolution.Push(new AbsorbProjectile(heroProjectile));
+                                }
+                            }
+                            
+                        }
+                    }
+                    
+                }
+        }
+
+        boolean isAnyInvaderAtLeftOrRightEdge =
+            game.allInvaderShips.stream()
+            .anyMatch(invader -> CollisionDetection.IsShapeAtEdge_Left(invader) || CollisionDetection.IsShapeAtEdge_Right(invader));
+        if(isAnyInvaderAtLeftOrRightEdge)
+            eventResolution.Push(new MoveInvadersToNextLineAndChangeDirectionOfMovement());
+
+        boolean isAnyInvaderAtBottomEdge = game.allInvaderShips.stream().anyMatch(CollisionDetection::IsShapeAtEdge_Bottom);
+        if(isAnyInvaderAtBottomEdge)
+            eventResolution.Push(new EndGame(false));
+
+        boolean isInvaderInCollisionWithHero = game.allInvaderShips.stream().anyMatch(invader -> areTwoShapesInCollision(invader, game.heroShip));
+        if(isInvaderInCollisionWithHero)
+            eventResolution.Push(new EndGame(false));
+    }
+
+    
     public static boolean IsShapeAtEdge_Left(CollisionalShape shape){
         return shape.GetCollisionArea().getBounds2D().getMinX() <= 0;
     }

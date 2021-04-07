@@ -96,9 +96,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
 
     public synchronized void start() {
         this.running = true;
-        Thread hilito =  new Thread(this);
-        hilito.start();
-        //hilito.sleep(2000);
+            new Thread(this).start();
     }
 
     public long GetRuntimeInSeconds(){
