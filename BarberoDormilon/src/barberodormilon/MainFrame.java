@@ -16,6 +16,7 @@ public class MainFrame extends javax.swing.JFrame {
    
     public MainFrame() {
         initComponents();
+        barbero.setLblBarbero(lblBarbero);
     }
     
     public void setEstadoBarbero(){
@@ -59,7 +60,6 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnIniciar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
-        btnPausar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 0));
@@ -104,13 +104,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        btnPausar.setText("Pausar");
-        btnPausar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPausarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -131,7 +124,7 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(imgSilla, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(176, 176, 176))
+                                        .addGap(215, 215, 215))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(lblSilla, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(130, 130, 130)))
@@ -140,13 +133,11 @@ public class MainFrame extends javax.swing.JFrame {
                                     .addComponent(imgSilla5)
                                     .addComponent(imgSilla3)
                                     .addComponent(imgSilla6)
-                                    .addComponent(lblEspera, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(lblEspera, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnIniciar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPausar)
-                        .addGap(145, 145, 145)
+                        .addGap(214, 214, 214)
                         .addComponent(btnActualizar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -169,9 +160,9 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnNewCliente)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
+                        .addGap(33, 33, 33)
                         .addComponent(lblEspera, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(imgSilla6, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(imgSilla3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,8 +171,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIniciar)
-                    .addComponent(btnActualizar)
-                    .addComponent(btnPausar))
+                    .addComponent(btnActualizar))
                 .addContainerGap())
         );
 
@@ -193,13 +183,16 @@ public class MainFrame extends javax.swing.JFrame {
     //Hilos
     new Thread(barbero).start();
     new Thread(silla).start();
+    setEstadoBarbero();
+    setEstadoSilla();
+    setContadorEspera();
       
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void btnNewClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewClienteActionPerformed
         try {
             if(silla.getColaEspera() < 20){
-                Cliente nuevo = new Cliente(silla, barbero);
+                Cliente nuevo = new Cliente(silla, barbero, lblEspera, lblSilla);
                 new Thread(nuevo).start();
             }else{
                 System.out.println("Barberia llena, el cliente se ha ido.");
@@ -217,12 +210,6 @@ public class MainFrame extends javax.swing.JFrame {
         setContadorEspera();
         
     }//GEN-LAST:event_btnActualizarActionPerformed
-
-    private void btnPausarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPausarActionPerformed
-        // TODO add your handling code here:
-        silla.activo = false;
-        barbero.activo = false;
-    }//GEN-LAST:event_btnPausarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,7 +252,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnIniciar;
     private javax.swing.JButton btnNewCliente;
-    private javax.swing.JButton btnPausar;
     private javax.swing.JLabel imgBarbero;
     private javax.swing.JLabel imgSilla;
     private javax.swing.JLabel imgSilla3;
