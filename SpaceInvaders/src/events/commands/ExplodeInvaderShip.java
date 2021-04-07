@@ -19,6 +19,7 @@ public class ExplodeInvaderShip implements Command {
         this.eventResolution = eventResolution;
     }
 
+    
     @Override
     public void Apply(Game game) {
         int indexOfExplodedShip = game.allInvaderShips.indexOf(invaderShipThatIsHit);

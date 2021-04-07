@@ -46,8 +46,11 @@ public class Game extends Canvas implements Runnable, GameTimer {
     public LocalDateTime EndTime;
     public boolean IsGameOver = false;
     public boolean PlayerWon = false;
-
+    public boolean fin1 = false;
+    public boolean fin2 = false;
+    
     public final HeroShip heroShip;
+    public final HeroShip heroShip2;
     public final StatusRibbon statusRibbon;
     public final GameOverScreenOverlay gameOverScreenOverlay;
     public final List<HeroProjectile> allHeroProjectiles;
@@ -64,7 +67,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
     public Game(){
         setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
 
-        frame = new JFrame("Space Invaders :: Loading");
+        frame = new JFrame("Space Invaders :: Cargando");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.pack();
@@ -78,7 +81,8 @@ public class Game extends Canvas implements Runnable, GameTimer {
         this.statusRibbon = new StatusRibbon(this);
         this.gameOverScreenOverlay = new GameOverScreenOverlay(this);
         this.eventResolution = new EventResolution(this);
-        this.heroShip = new HeroShip(this.eventResolution);
+        this.heroShip = new HeroShip(this.eventResolution,1);
+        this.heroShip2 = new HeroShip(this.eventResolution,2);
         this.allHeroProjectiles = new ArrayList<HeroProjectile>();
         this.allInvaderShips = new ArrayList<InvaderShip>();
         for (int row = 0; row < 5; row++)
@@ -90,9 +94,11 @@ public class Game extends Canvas implements Runnable, GameTimer {
         this.vfxManager = new VfxManager(this);
     }
 
-    public synchronized void start(){
+    public synchronized void start() {
         this.running = true;
-        new Thread(this).start();
+        Thread hilito =  new Thread(this);
+        hilito.start();
+        //hilito.sleep(2000);
     }
 
     public long GetRuntimeInSeconds(){
@@ -152,7 +158,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
             boolean isReadyToRefreshUpsAndFpsReadings = (System.currentTimeMillis() - lastUpsAndFpsReading_inMillis) > MILLIS_IN_SECOND;
             if(isReadyToRefreshUpsAndFpsReadings){
                 lastUpsAndFpsReading_inMillis += MILLIS_IN_SECOND;
-                frame.setTitle("Space Invaders (ups: " + updatesCount + " | fps: " + framesCount + ")");
+                frame.setTitle("Space Invaders");
                 framesCount = 0;
                 updatesCount = 0;
             }
@@ -167,6 +173,15 @@ public class Game extends Canvas implements Runnable, GameTimer {
 
         if(input.shooting.isKeyDown())
             heroShip.Shoot();
+        
+        if(input.right2.isKeyDown())
+            heroShip2.MoveRight();
+
+        if(input.left2.isKeyDown())
+            heroShip2.MoveLeft();
+
+        if(input.shooting2.isKeyDown())
+            heroShip2.Shoot();
     }
 
     private void Update(){
@@ -186,10 +201,12 @@ public class Game extends Canvas implements Runnable, GameTimer {
         eventResolution.Resolve();
         vfxManager.Update();
     }
+    
     private void UpdateDynamicElements(){
         Stream
             .of(
                 Arrays.asList(heroShip),
+                Arrays.asList(heroShip2),
                 allInvaderShips,
                 allInvaderProjectiles,
                 allHeroProjectiles,
@@ -217,9 +234,11 @@ public class Game extends Canvas implements Runnable, GameTimer {
                 allInvaderProjectiles,
                 allHeroProjectiles,
                 allExplosionVFX,
-                Arrays.asList(heroShip, statusRibbon))
+                Arrays.asList(heroShip, statusRibbon),
+                Arrays.asList(heroShip2, statusRibbon))
             .<GraphicalShape>flatMap(dynamicElements -> dynamicElements.stream())
             .forEach(shape -> shape.Paint(graphics2D));
+        
 
         if(this.IsGameOver)
             gameOverScreenOverlay.Paint(graphics2D);
@@ -228,7 +247,4 @@ public class Game extends Canvas implements Runnable, GameTimer {
         graphics2D.dispose();
     }
 
-   /*public static void main(String[] args){
-        new Game().start();
-    }*/
 }

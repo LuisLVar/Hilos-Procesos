@@ -23,6 +23,10 @@ public class InputHandler implements KeyListener {
     public Key left = new Key();
     public Key right = new Key();
     public Key shooting = new Key();
+    
+    public Key left2 = new Key();
+    public Key right2 = new Key();
+    public Key shooting2 = new Key();
 
     public void keyTyped(KeyEvent e) {
     }
@@ -36,11 +40,17 @@ public class InputHandler implements KeyListener {
     }
 
     public void toggleKey(int keyCode, boolean isPressed){
-        if(keyCode == KeyEvent.VK_S)
+        if(keyCode == KeyEvent.VK_D)
             right.toggle(isPressed);
         if(keyCode == KeyEvent.VK_A)
             left.toggle(isPressed);
-        if(keyCode == KeyEvent.VK_D)
+        if(keyCode == KeyEvent.VK_S)
             shooting.toggle(isPressed);
+        if(keyCode == KeyEvent.VK_L)
+            right2.toggle(isPressed);
+        if(keyCode == KeyEvent.VK_J)
+            left2.toggle(isPressed);
+        if(keyCode == KeyEvent.VK_K)
+            shooting2.toggle(isPressed);
     }
 }

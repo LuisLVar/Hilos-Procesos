@@ -22,6 +22,9 @@ public class InvaderShip implements GraphicalShape, CollisionalShape, DynamicEle
     private double delta_X = 0.5;
     private boolean willChangeDirectionAfterCooldown = false;
     private long timeUntilNextMoveAvailable = 0;
+    
+    public HeroProjectile vida1 = null;
+    public HeroProjectile vida2 = null;
 
     public InvaderShip(int row, int column){
         Point location = new Point(

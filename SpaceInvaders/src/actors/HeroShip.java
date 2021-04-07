@@ -22,8 +22,13 @@ public class HeroShip implements GraphicalShape, CollisionalShape, DynamicElemen
     private final Area currentShape;
     private long timeUntilShootingAvailable = 0;
 
-    public HeroShip(EventResolution eventResolution) {
-        Point location = new Point((int)(Game.CANVAS_WIDTH/2 - (WIDTH/2 * DRAWING_SCALE)), Game.CANVAS_HEIGHT - HEIGHT);
+    public int lifes = 9;
+    public InvaderProjectile vida1 = null;
+    public InvaderProjectile vida2 = null;
+    public InvaderProjectile vida3 = null;
+    
+    public HeroShip(EventResolution eventResolution,int jugador) {
+        Point location = jugador == 1 ? new Point((int)(Game.CANVAS_WIDTH/2 - (WIDTH/2 * DRAWING_SCALE))-100, Game.CANVAS_HEIGHT - HEIGHT): new Point((int)(Game.CANVAS_WIDTH/2 - (WIDTH/2 * DRAWING_SCALE))+50, Game.CANVAS_HEIGHT - HEIGHT);
         this.eventResolution = eventResolution;
         this.currentShape = generateShape(location);
     }
