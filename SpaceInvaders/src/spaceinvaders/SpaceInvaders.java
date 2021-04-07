@@ -4,18 +4,15 @@
  * and open the template in the editor.
  */
 package spaceinvaders;
-
+import game.Game;
 /**
  *
  * @author Chay
  */
-public class SpaceInvaders {
-
-    /**
-     * @param args the command line arguments
-     */
+public class SpaceInvaders  {
+    
     public static void main(String[] args) {
-        // TODO code application logic here
+        new Game().start();
     }
     
 }
