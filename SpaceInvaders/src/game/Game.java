@@ -225,7 +225,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
 
         graphics.setColor(COLOR_BACKGROUND);
         graphics.fillRect(0, 0, getWidth(), getHeight());
-
+        
         Stream
             .of(
                 allInvaderShips,

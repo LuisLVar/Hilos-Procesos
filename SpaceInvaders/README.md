@@ -12,7 +12,7 @@ mover de forma horizontal. Los comandos serán las siguientes teclas, para la pr
 nave: “A” - Izquierda , “S” - Disparar, “D” - Derecha; para la segunda nave: “J” - Izquierda,
 “K” - Disparar , “L” - Derecha.
 
-![alt-text](https://github.com/LuisLVar/Hilos-Procesos.git/blob/master/SpaceInvaders/img/space.png)
+![alt-text](https://github.com/LuisLVar/Hilos-Procesos/tree/master/SpaceInvaders/img/space.png)
 
 ## Código Concurrente y Paralelo
 El código concurrente se ejecuta en cada actualización de la pantalla
